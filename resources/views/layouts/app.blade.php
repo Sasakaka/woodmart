@@ -8,26 +8,17 @@
     {{-- Bootstrap Icons --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
-<body class="bg-light">
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-success">
-        <div class="container">
-            <a class="navbar-brand fw-bold" href="/">
-                🌲 WoodMart
-            </a>
-
-            <div class="navbar-nav ms-auto">
-                <a class="nav-link" href="{{ route('categories.index') }}">
-                    Kategori
-                </a>
+<body>
+    <div class="d-flex">
+        @include('partials.sidebar')
+        <div class="flex-grow-1" style="margin-left: 260px;">
+            <!-- Content -->
+            <div class="container-fluid p-4">
+                @yield('content')
             </div>
         </div>
-    </nav>
-
-    <!-- Content -->
-    <div class="container mt-4">
-        @yield('content')
     </div>
+
 
     <!-- SweetAlert -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
