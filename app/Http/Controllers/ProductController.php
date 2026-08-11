@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\product;
+use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -35,13 +35,33 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'category_id' => 'required|exists:categories,id',
+            'product_name' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'stock' => 'required|integer|min:0',
+            'price' => 'required|numeric|min:0',
+            'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+            'status' => 'nullable|boolean',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('products', 'public');
+        }
+
+        $validated['status'] = $request->has('status');
+
+        Product::create($validated);
+
+        return redirect()
+            ->route('products.index')
+            ->with('success', 'Produk berhasil ditambahkan.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(product $product)
+    public function show(Product $product)
     {
         //
     }
@@ -49,24 +69,54 @@ class ProductController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(product $product)
+    public function edit(Product $product)
     {
-        //
+        $categories = Category::where('status', true)->get();
+
+        return view('products.edit', compact('product', 'categories'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, product $product)
+    public function update(Request $request, Product $product)
     {
-        //
+        $validated = $request->validate([
+        'category_id' => 'required|exists:categories,id',
+        'product_name' => 'required|string|max:255',
+        'description' => 'nullable|string',
+        'stock' => 'required|integer|min:0',
+        'price' => 'required|numeric|min:0',
+        'image' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:2048',
+        'status' => 'nullable|boolean',
+        ]);
+
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request
+                ->file('image')
+                ->store('products', 'public');
+        } else {
+            $validated['image'] = $product->image;
+        }
+
+        $validated['status'] = $request->has('status');
+
+        $product->update($validated);
+
+        return redirect()
+            ->route('products.index')
+            ->with('success', 'Produk berhasil diperbarui.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(product $product)
+    public function destroy(Product $product)
     {
-        //
+        $product->delete();
+
+        return redirect()
+            ->route('products.index')
+            ->with('success', 'Produk berhasil dihapus.');
     }
 }
