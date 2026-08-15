@@ -87,7 +87,7 @@
 
                         <td>
 
-                            <a href="#" class="btn btn-warning btn-sm">
+                            <a href="{{ route('products.edit', $product->id) }}" class="btn btn-warning btn-sm">
                                 <i class="bi bi-pencil"></i>
                                 Edit
                             </a>

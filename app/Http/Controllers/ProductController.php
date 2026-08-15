@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Category;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -92,9 +93,15 @@ class ProductController extends Controller
         ]);
 
         if ($request->hasFile('image')) {
+            //Hapus Gambar lama jika ada
+            if ($product->image){
+                Storage::disk('public')->delete($product->image);
+            
+            //Simpan Gambar baru
             $validated['image'] = $request
                 ->file('image')
                 ->store('products', 'public');
+            }
         } else {
             $validated['image'] = $product->image;
         }
@@ -113,6 +120,12 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
+        // Hapus gambar jika ada
+        if ($product->image){
+            Storage::disk('public')->delete($product->image);
+        }
+        
+        // hapus data produk dari database
         $product->delete();
 
         return redirect()
