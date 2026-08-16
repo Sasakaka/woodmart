@@ -8,7 +8,7 @@
     {{-- Bootstrap Icons --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
 </head>
-<body>
+<body data-success-message="{{ session('success') }}">
     <div class="d-flex">
         @include('partials.sidebar')
         <div class="flex-grow-1" style="margin-left: 260px;">
@@ -28,7 +28,7 @@
             Swal.fire({
                 icon: 'success',
                 title: 'Berhasil',
-                text: '{{ session('success') }}',
+                text: successMessage,
                 confirmButtonColor: '#198754',
             });
         </script>

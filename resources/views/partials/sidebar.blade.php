@@ -3,7 +3,7 @@
         🌲 WoodMart
     </h2>
     <hr>
-    <a href="#" class="btn btn-success w-100 text-start mb-2">
+    <a href="{{ route('dashboard') }}" class="btn btn-success w-100 text-start mb-2">
         <i class="bi bi-speedometer2"></i> Dashboard
     </a>
     <a href="{{ route('categories.index') }}" class="btn {{ request()->routeIs('categories.*') ? 'btn-success' : 'btn-outline-light' }} w-100 text-start mb-2">
@@ -12,10 +12,10 @@
     <a href="{{ route('products.index') }}" class="btn {{ request()->routeIs('products.*') ? 'btn-success' : 'btn-outline-light' }} w-100 text-start mb-2">
         <i class="bi bi-box-seam"></i> Produk
     </a>
-    <a href="#" class="btn btn-outline-light w-100 text-start mb-2">
+    <a href="{{ route('suppliers.index') }}" class="btn btn-outline-light w-100 text-start mb-2">
         <i class="bi bi-truck"></i> Supplier
     </a>
-    <a href="#" class="btn btn-outline-light w-100 text-start mb-2">
+    <a href="{{ route('reports.index') }}" class="btn btn-outline-light w-100 text-start mb-2">
         <i class="bi bi-file-earmark-bar-graph"></i> Laporan
     </a>
 </div>
